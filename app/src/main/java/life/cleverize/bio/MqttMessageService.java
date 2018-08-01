@@ -90,9 +90,6 @@ public class MqttMessageService extends Service {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-
-
-//            String CHANNEL_ID = "my_channel_01";
             CharSequence name = "my_channel";
             String Description = "This is my channel";
             int importance = NotificationManager.IMPORTANCE_HIGH;
