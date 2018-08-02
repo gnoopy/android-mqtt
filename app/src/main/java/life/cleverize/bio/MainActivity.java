@@ -84,25 +84,16 @@ public class MainActivity extends AppCompatActivity
             imageDetails = imagePro.getImagePath(ImagePro.GALLERY_CODE, RESULT_OK, data);
         }
 
-        try {
-            this.showRegisterDialog(imageDetails.getBitmap(), Files.readAllBytes(imageDetails.getFile().toPath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        this.showRegisterDialog(imageDetails.getBitmap());
         ivCrop.setImageBitmap(imageDetails.getBitmap());
 
 //imageDetails.getPath(), imageDetails.getBitmap(), imageDetails.getUri(), imageDetails.getFile
     }
 
     protected String bitmapToBase64String(byte [] b) {
-//        ByteArrayOutputStream jpeg_data = new ByteArrayOutputStream();
-//        if ( b.compress(Bitmap.CompressFormat.JPEG, 100, jpeg_data)) {
-//            byte[] code = jpeg_data.toByteArray();
             String b64Encoded = Base64.encodeToString(b, Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING );
-
             return b64Encoded;
-//        }
-//        return "";
     }
 
     protected String getRecogReqString(byte [] b,String name) {
@@ -119,8 +110,12 @@ public class MainActivity extends AppCompatActivity
         return jsonObject.toString();
     }
 
-    protected  void showRegisterDialog(final Bitmap b,final byte [] ba){
-        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
+    protected  void showRegisterDialog(final Bitmap b){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        final byte[] ba = stream.toByteArray();
+
+        final LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
         View mView = layoutInflaterAndroid.inflate(R.layout.user_name_input_dialog, null);
         ImageView imageView=mView.findViewById(R.id.whosthis);
         imageView.setImageBitmap(b);
