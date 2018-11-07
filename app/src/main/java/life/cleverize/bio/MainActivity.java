@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity
         try {
             jsonObject.put("req",""+System.currentTimeMillis());
             jsonObject.put("name",name);
-            jsonObject.put("ext","jpeg");
+            jsonObject.put("ext","png");
             jsonObject.put("img",b64Encoded);
         } catch (JSONException e) {
             e.printStackTrace();
