@@ -249,10 +249,12 @@ public class MainActivity extends AppCompatActivity
                                     String name=jsonObject.getString("name");
 //                                    Snackbar.make(v, name, Snackbar.LENGTH_LONG)
 //                                            .setAction("Action", null).show();
-                                    if (name == null || name.trim().isEmpty())
+                                    if (name == null || name.trim().isEmpty() )
                                         return;
-
-                                    alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                                    if (alertDialog == null)
+                                        alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                                    if (alertDialog.isShowing())
+                                        return;
                                     if (name.equals("nobody")) {
                                         alertDialog.setTitle("Not Found");
                                         alertDialog.setMessage("일치하는 실종자가 없습니다.");
