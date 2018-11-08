@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity
         dialog.show();
     }
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-
+    AlertDialog alertDialog = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -245,10 +245,28 @@ public class MainActivity extends AppCompatActivity
 
                                 @Override
                                 public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
-                                    JSONObject jsonObject = new JSONObject(s);
+                                    JSONObject jsonObject = new JSONObject(new String(mqttMessage.getPayload()));
                                     String name=jsonObject.getString("name");
-                                    Snackbar.make(v, name, Snackbar.LENGTH_LONG)
-                                            .setAction("Action", null).show();
+//                                    Snackbar.make(v, name, Snackbar.LENGTH_LONG)
+//                                            .setAction("Action", null).show();
+                                    if (name == null || name.trim().isEmpty())
+                                        return;
+
+                                    alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                                    if (name.equals("nobody")) {
+                                        alertDialog.setTitle("Not Found");
+                                        alertDialog.setMessage("일치하는 실종자가 없습니다.");
+                                    } else {
+                                        alertDialog.setTitle("Found");
+                                        alertDialog.setMessage("실종자 : " + name);
+                                    }
+                                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                    alertDialog.show();
                                 }
 
                                 @Override
